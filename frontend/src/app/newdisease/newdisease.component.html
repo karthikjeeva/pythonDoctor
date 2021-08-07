@@ -1,0 +1,59 @@
+<h1>Add new disease</h1>
+<form [formGroup]="diseaseForm" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+        <div class="autocompletelocation">
+            <label>Search Disease Location</label>
+            <input type="text"
+                aria-label="Number"
+                name="autocompletelocation"
+                matInput
+                formControlName="diseaseControlLocation"
+                [matAutocomplete]="autoLoc">
+         
+            <mat-autocomplete #autoLoc="matAutocomplete" [displayWith]="displayFn" >
+                <mat-option *ngFor="let option of filteredOptions | async"  [value]="option">
+                {{option.diseaseLocation}}
+                </mat-option>
+            </mat-autocomplete>
+        </div>
+
+        <div class="autocompletename">
+            <label>Search Disease Name</label>
+            <input type="text"
+                aria-label="Number"
+                name="autocompletename"
+                matInput
+                formControlName="diseaseControlName"
+                [matAutocomplete]="autoName">
+         
+            <mat-autocomplete #autoName="matAutocomplete" [displayWith]="displayFn" >
+                <mat-option *ngFor="let option of filteredOptions | async"  [value]="option">
+                {{option.diseaseName}}
+                </mat-option>
+            </mat-autocomplete>
+        </div> 
+    </mat-form-field>
+    
+  <!--   <p>
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" formcontrolName="name">
+    </p>
+    Skills:
+    <div formArrayName="skills">
+        <div *ngFor="let skill of skills.controls; let i=index">
+            <div [formGroupName]="i">
+                {{i}}
+                skill name :
+                <input type="text" formControlName="skill">
+                exp:
+                <input type="text" formControlName="exp">
+                <button (click)="removeSkill(i)">Remove</button>
+            </div>
+        </div>
+    </div>-->
+
+    <p>
+        <button type="submit">Submit</button>
+    </p> 
+</form>
+{{ diseaseForm.value | json }}
