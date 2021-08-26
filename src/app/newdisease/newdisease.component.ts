@@ -4,11 +4,17 @@ import { Disease } from '@app/models/disease';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
+export interface Person {
+  name: string;
+  age: Number;
+}
+
 @Component({
   selector: 'app-newdisease',
   templateUrl: './newdisease.component.html',
   styleUrls: ['./newdisease.component.css']
 })
+
 export class NewdiseaseComponent implements OnInit {
   diseases: Disease[] = [
     {
@@ -60,6 +66,9 @@ export class NewdiseaseComponent implements OnInit {
     }
   ]
 
+
+  names: Person[] = [{name: 'kar', age: 22}, {name: 'poo', age: 21}, {name: 'smi', age: 16}];
+
   diseaseForm: FormGroup;
   diseaseControlLocation: FormControl = new FormControl();
   diseaseControlName: FormControl = new FormControl();
@@ -71,27 +80,61 @@ export class NewdiseaseComponent implements OnInit {
     })
   }
  
+  //filteredOptions: Observable<Disease[] | null | undefined> [] = [];
   filteredOptions: Observable<Disease[]> | undefined;
-  
+  filterednames: Observable<Person[]> | undefined;
   ngOnInit(): void {
-    this.filteredOptions = this.diseaseControlLocation.valueChanges.pipe(
+
+   /*  this.ManageNameControl(0 , 'location', this.diseaseControlLocation);
+    this.ManageNameControl(1, 'names', this.diseaseControlName);
+ */
+    this.filteredOptions = this.diseaseForm.get('diseaseControlLocation')!.valueChanges.pipe(
       startWith(''),
       map(value => typeof value === 'string' ? value : value.diseaseLocation),
       map(dieaseLoc => dieaseLoc ? this._filter(dieaseLoc) : this.diseases.slice())
-    );
+    ); 
+
+
+    this.filterednames = this.diseaseControlName.valueChanges.pipe(
+      startWith(''),
+      map(value => typeof value === 'string' ? value : value.name),
+      map(name => name ? this._filter1(name) : this.names.slice())
+    ); 
   }
 
   private _filter(diseaseLocation: string): Disease[] {
+     console.log("called");
     const filterValue = diseaseLocation.toLowerCase();
     return this.diseases.filter(option => option.diseaseLocation.toLowerCase().includes(filterValue));
+  }
+
+  private _filter1(name: string): Person[] {
+    const filterValue = name.toLowerCase();
+    return this.names.filter(option => option.name.toLowerCase().includes(filterValue));
   }
 
   displayFn(disease: Disease): string {
     return disease && disease.diseaseLocation ? disease.diseaseLocation : '';
   }
 
+  displayFn1(name: Person): string {
+    return name && name.name ? name.name : '';
+  }
+
   onSubmit() {
     console.log(this.diseaseForm.value);
   }
 
+ /*  ManageNameControl(index: number, param:string, formContolvar: FormControl) {
+    var arrayControl = this.diseaseForm.get('items') as FormArray;
+  
+    this.filteredOptions[index] = formContolvar.get('name')!.valueChanges
+    .pipe(
+      startWith<string | Disease>(''),
+      map((value:any) => typeof value === 'string' ? value : value[param]),
+      map(name => name ? this._filter(name) : this.diseases.slice())
+    );  
+    
+
+  } */
 }

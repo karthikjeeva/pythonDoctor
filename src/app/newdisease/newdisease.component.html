@@ -2,7 +2,7 @@
 <form [formGroup]="diseaseForm" (ngSubmit)="onSubmit()">
     <mat-form-field>
         <div class="autocompletelocation">
-            <label>Search Disease Location</label>
+            <label>Search disease location</label>
             <input type="text"
                 aria-label="Number"
                 name="autocompletelocation"
@@ -16,9 +16,11 @@
                 </mat-option>
             </mat-autocomplete>
         </div>
-
+    </mat-form-field>
+     <br/>
+    <!-- <mat-form-field>
         <div class="autocompletename">
-            <label>Search Disease Name</label>
+            <label>Search disease name</label>
             <input type="text"
                 aria-label="Number"
                 name="autocompletename"
@@ -26,32 +28,13 @@
                 formControlName="diseaseControlName"
                 [matAutocomplete]="autoName">
          
-            <mat-autocomplete #autoName="matAutocomplete" [displayWith]="displayFn" >
-                <mat-option *ngFor="let option of filteredOptions | async"  [value]="option">
-                {{option.diseaseName}}
+            <mat-autocomplete #autoName="matAutocomplete" [displayWith]="displayFn1" >
+                <mat-option *ngFor="let option of filterednames | async"  [value]="option">
+                {{option.name}}
                 </mat-option>
             </mat-autocomplete>
         </div> 
-    </mat-form-field>
-    
-  <!--   <p>
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" formcontrolName="name">
-    </p>
-    Skills:
-    <div formArrayName="skills">
-        <div *ngFor="let skill of skills.controls; let i=index">
-            <div [formGroupName]="i">
-                {{i}}
-                skill name :
-                <input type="text" formControlName="skill">
-                exp:
-                <input type="text" formControlName="exp">
-                <button (click)="removeSkill(i)">Remove</button>
-            </div>
-        </div>
-    </div>-->
-
+    </mat-form-field> -->
     <p>
         <button type="submit">Submit</button>
     </p> 
